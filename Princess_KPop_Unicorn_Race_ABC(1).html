@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Princess K-Pop Unicorn Race ABC</title>
+<style>
+:root{
+  --pink:#ff72b6; --purple:#8d5ce8; --blue:#65b7ff; --mint:#76dfc0;
+  --yellow:#ffd86b; --ink:#4d326e; --white:#fff;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:"Trebuchet MS",Arial,sans-serif;color:var(--ink);
+  background:linear-gradient(135deg,#ffd8ef,#d8d0ff 45%,#c8f3ff);
+  min-height:100vh;overflow-x:hidden;
+}
+button{font:inherit;border:0;cursor:pointer}
+.app{min-height:100vh;position:relative}
+.bg{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.cloud{position:absolute;background:#fff8;border-radius:999px;filter:blur(1px)}
+.c1{width:260px;height:90px;top:8%;left:-50px}.c2{width:320px;height:110px;top:30%;right:-90px}.c3{width:220px;height:75px;bottom:8%;left:10%}
+.rainbow{position:absolute;width:70vw;height:35vw;left:15%;top:3%;border-radius:70vw 70vw 0 0;border:25px solid #ff9dcf;border-bottom:0;opacity:.28}
+.rainbow:after{content:"";position:absolute;inset:25px;border:22px solid #ffd66d;border-bottom:0;border-radius:70vw 70vw 0 0}
+.container{position:relative;z-index:1;width:min(1180px,94%);margin:auto;padding:18px 0 30px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+.badge{background:#ffffffdd;border:3px solid #fff;border-radius:22px;padding:10px 16px;box-shadow:0 8px 20px #8b63c433;font-weight:900}
+.logo{text-align:center}
+.logo h1{margin:0;font-size:clamp(28px,5vw,62px);line-height:.95;color:#fff;text-shadow:0 4px 0 #8d5ce8,0 8px 16px #6f45a455}
+.logo p{margin:8px 0;font-weight:900;color:#713fa8}
+.panel{background:#ffffffdf;border:3px solid #fff;border-radius:28px;box-shadow:0 16px 40px #7546a52b;padding:18px}
+.screen{display:none}.screen.active{display:block}
+.home-grid{display:grid;grid-template-columns:230px 1fr 260px;gap:16px}
+.menu{display:flex;flex-direction:column;gap:10px}
+.menu button,.primary,.secondary,.answer{
+  border-radius:18px;padding:14px 16px;font-weight:900;box-shadow:0 6px 0 #00000015;transition:.15s transform
+}
+.menu button:hover,.primary:hover,.secondary:hover,.answer:hover{transform:translateY(-2px)}
+.primary{background:linear-gradient(135deg,#ff6eaa,#c84ee9);color:white;font-size:20px}
+.secondary{background:linear-gradient(135deg,#71c8ff,#7c8cf6);color:white}
+.menu button{background:#f4eaff;color:#7044a0;text-align:left}
+.menu button:nth-child(2){background:#e9ddff}.menu button:nth-child(3){background:#d9f3ff}.menu button:nth-child(4){background:#dcf8e8}.menu button:nth-child(5){background:#fff1c8}
+.hero{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;min-height:500px}
+.characters{display:flex;justify-content:center;align-items:end;gap:12px;margin:18px 0}
+.hero .char{font-size:76px;filter:drop-shadow(0 8px 6px #7546a333);animation:bob 2s infinite ease-in-out}
+.hero .char:nth-child(2){animation-delay:.2s}.hero .char:nth-child(3){animation-delay:.4s}
+.cars{display:flex;gap:8px;margin-top:-8px}
+.car{font-size:62px;animation:drive 1.6s infinite ease-in-out}
+.car:nth-child(2){animation-delay:.15s}.car:nth-child(3){animation-delay:.3s}
+.info h3{margin:0 0 8px;color:#7d49b2}
+.letters{font-weight:900;letter-spacing:5px;color:#f05eab;font-size:20px}
+.feature{margin-top:12px;background:#f7efff;border-radius:18px;padding:12px}
+@keyframes bob{50%{transform:translateY(-10px)}}@keyframes drive{50%{transform:translateX(7px)}}
+.race-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.stats{display:flex;gap:8px;flex-wrap:wrap}.stat{background:#fff;border-radius:14px;padding:8px 12px;font-weight:900}
+.track{margin-top:16px;border-radius:26px;padding:18px;background:linear-gradient(#c8f7ff,#f8d8f1);position:relative;overflow:hidden;border:4px solid white}
+.track:before{content:"🌈   ☁️   ✨   ☁️   🌈   ✨";position:absolute;top:8px;left:0;right:0;text-align:center;font-size:28px;opacity:.8}
+.lane{height:105px;margin-top:35px;border-radius:20px;background:repeating-linear-gradient(90deg,#fff 0 34px,#e7bce0 34px 68px);border:3px solid #fff;position:relative;overflow:hidden}
+.racer{position:absolute;left:4%;top:18px;font-size:62px;transition:left .7s ease}
+.finish{position:absolute;right:0;top:0;height:100%;width:18px;background:repeating-linear-gradient(0deg,#fff 0 18px,#333 18px 36px)}
+.quiz{margin-top:16px;text-align:center}
+.question{font-size:24px;font-weight:900;margin:10px}
+.target{font-size:72px;color:#e854ae;text-shadow:0 4px #fff}
+.answers{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:650px;margin:12px auto}
+.answer{background:#fff;border:4px solid #d9c2ff;color:#673b9d;font-size:28px}
+.answer.correct{background:#c8f7df;border-color:#45c990}.answer.wrong{background:#ffd2df;border-color:#ff739d}
+.feedback{min-height:30px;font-weight:900;font-size:18px}
+.progress{height:14px;background:#eadcf7;border-radius:99px;overflow:hidden;margin:10px 0}
+.progress>div{height:100%;background:linear-gradient(90deg,#ff75b6,#7e8df5);width:0;transition:.3s}
+.selection{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.char-card{padding:18px;border-radius:24px;background:#fff;text-align:center;border:4px solid transparent;cursor:pointer;box-shadow:0 8px 18px #65419b22}
+.char-card.selected{border-color:#ff72b6;background:#fff0f8}.char-card .avatar{font-size:80px}.char-card h3{margin:8px}
+.reward{text-align:center}.trophy{font-size:110px}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:16px;overflow:hidden}th,td{padding:10px;border-bottom:1px solid #eee;text-align:center}
+.modal{position:fixed;inset:0;background:#4b2c7066;display:none;align-items:center;justify-content:center;z-index:10;padding:20px}
+.modal.show{display:flex}.modal-box{background:#fff;border-radius:28px;padding:26px;max-width:520px;width:100%;text-align:center;box-shadow:0 20px 60px #4b2c7066}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:11}
+.confetti span{position:absolute;font-size:26px;animation:fall 2.5s linear forwards}
+@keyframes fall{from{transform:translateY(-10vh) rotate(0)}to{transform:translateY(110vh) rotate(720deg)}}
+@media(max-width:900px){.home-grid{grid-template-columns:1fr}.menu{display:grid;grid-template-columns:repeat(2,1fr)}.hero{min-height:420px}.info{display:grid;grid-template-columns:1fr 1fr;gap:10px}}
+@media(max-width:600px){.container{width:96%}.topbar{align-items:flex-start}.topbar .badge{font-size:12px}.menu{grid-template-columns:1fr}.characters{gap:0}.hero .char{font-size:55px}.car{font-size:45px}.selection{grid-template-columns:1fr}.answers{grid-template-columns:1fr}.answers .answer{font-size:24px}.panel{padding:13px;border-radius:22px}.target{font-size:60px}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="bg"><div class="rainbow"></div><div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div></div>
+<div class="container">
+<div class="topbar">
+  <div class="badge">👑 Nivel <span id="levelBadge">1</span></div>
+  <div class="logo"><h1>PRINCESAS<br>K-POP</h1><p>🦄 CARRERA DEL ABECEDARIO ✨</p></div>
+  <div class="badge">⭐ <span id="starsTop">0</span></div>
+</div>
+
+<section id="home" class="screen active">
+<div class="home-grid">
+  <aside class="panel menu">
+    <button onclick="showScreen('race')">🏁 INICIAR CARRERA</button>
+    <button onclick="showScreen('ranking')">🏆 RANKING</button>
+    <button onclick="showScreen('learn')">📖 APRENDER LETRAS</button>
+    <button onclick="showScreen('rewards')">⭐ PREMIOS</button>
+    <button onclick="showScreen('how')">❓ CÓMO JUGAR</button>
+  </aside>
+  <main class="panel hero">
+    <div class="characters"><span class="char">👩🏻‍🎤</span><span class="char">👩🏽‍🎤</span><span class="char">👩🏻‍🎤</span></div>
+    <div class="cars"><span class="car">🦄</span><span class="car">🦄</span><span class="car">🦄</span></div>
+    <h2>¡Aprende el abecedario de manera fácil y divertida!</h2>
+    <p>Corre con tus guerreras K-pop y responde las letras para hacer avanzar tu unicornio.</p>
+    <button class="primary" onclick="showScreen('select')">✨ ELEGIR GUERRERA</button>
+  </main>
+  <aside class="panel info">
+    <h3>🎯 OBJETIVO</h3><p>Completa la carrera respondiendo correctamente y aprende todo el abecedario.</p>
+    <div class="feature"><b>📚 APRENDERÁS</b><div class="letters">A B C D E F G H I J K L M N Ñ O P Q R S T U V W X Y Z</div></div>
+    <div class="feature">⏱️ <b>Duración:</b> 15 minutos</div>
+    <div class="feature">🎁 <b>Recompensas:</b> estrellas, coronas y trofeos.</div>
+  </aside>
+</div>
+</section>
+
+<section id="select" class="screen panel">
+<h2>🥋 Elige a tu guerrera K-pop</h2><p>Selecciona a tu campeona para comenzar.</p>
+<div class="selection">
+ <div class="char-card selected" data-char="Sora" onclick="selectChar(this)"><div class="avatar">👩🏻‍🎤</div><h3>💗 Sora</h3><p>Rápida y alegre</p></div>
+ <div class="char-card" data-char="Mina" onclick="selectChar(this)"><div class="avatar">👩🏽‍🎤</div><h3>💜 Mina</h3><p>Experta en letras</p></div>
+ <div class="char-card" data-char="Yuna" onclick="selectChar(this)"><div class="avatar">👩🏻‍🎤</div><h3>💙 Yuna</h3><p>Maestra del turbo</p></div>
+</div><br><button class="primary" onclick="startRace()">🏁 ¡COMENZAR!</button>
+</section>
+
+<section id="race" class="screen panel">
+<div class="race-head"><div><h2>🏁 Carrera del Abecedario</h2><p>¡Responde y acelera!</p></div>
+<div class="stats"><div class="stat">⏱️ <span id="time">15:00</span></div><div class="stat">⭐ <span id="stars">0</span></div><div class="stat">✅ <span id="correct">0</span></div></div></div>
+<div class="progress"><div id="progress"></div></div>
+<div class="track"><div class="lane"><div id="racer" class="racer">🦄</div><div class="finish"></div></div></div>
+<div class="quiz">
+ <div class="question">¿Qué letra es?</div><div id="target" class="target">A</div>
+ <div id="answers" class="answers"></div><div id="feedback" class="feedback"></div>
+</div>
+</section>
+
+<section id="learn" class="screen panel">
+<h2>📖 Aprende las letras</h2><p>Presiona una letra para escucharla y ver una palabra.</p>
+<div id="learnGrid" class="selection"></div><br><button class="secondary" onclick="showScreen('home')">🏠 Menú</button>
+</section>
+
+<section id="rewards" class="screen panel reward">
+<h2>⭐ Tus premios</h2><div class="trophy">🏆</div>
+<h3>Estrellas acumuladas: <span id="rewardStars">0</span></h3>
+<p>¡Sigue jugando para desbloquear más recompensas!</p>
+<button class="secondary" onclick="showScreen('home')">🏠 Volver</button>
+</section>
+
+<section id="ranking" class="screen panel">
+<h2>🏆 Ranking de campeonas</h2>
+<table><thead><tr><th>Posición</th><th>Guerrera</th><th>Estrellas</th></tr></thead>
+<tbody id="rankingBody"></tbody></table><br><button class="secondary" onclick="showScreen('home')">🏠 Volver</button>
+</section>
+
+<section id="how" class="screen panel">
+<h2>❓ Cómo jugar</h2>
+<ol><li>Elige una guerrera K-pop.</li><li>Observa la letra que aparece.</li><li>Selecciona la respuesta correcta.</li><li>Tu unicornio avanzará por la pista.</li><li>Completa el abecedario y consigue estrellas.</li><li>Tienes hasta 15 minutos para jugar.</li></ol>
+<div class="feature">💡 <b>Tip:</b> di la letra en voz alta. Aprender escuchando y jugando puede hacer la práctica más entretenida.</div>
+<br><button class="secondary" onclick="showScreen('home')">🏠 Volver</button>
+</section>
+</div>
+<div id="modal" class="modal"><div class="modal-box"><div id="modalContent"></div><button class="primary" onclick="closeModal()">✨ CONTINUAR</button></div></div>
+<div id="confetti" class="confetti"></div>
+</div>
+
+<script>
+const alphabet="ABCDEFGHIJKLMNÑOPQRSTUVWXYZ".split("");
+const words={A:"Árbol",B:"Barco",C:"Casa",D:"Dado",E:"Estrella",F:"Flor",G:"Gato",H:"Helado",I:"Isla",J:"Jirafa",K:"Kiwi",L:"Luna",M:"Mariposa",N:"Nube",Ñ:"Ñandú",O:"Oso",P:"Pelota",Q:"Queso",R:"Ratón",S:"Sol",T:"Tortuga",U:"Uva",V:"Vaca",W:"Wafle",X:"Xilófono",Y:"Yoyo",Z:"Zapato"};
+let selectedChar="Sora", index=0, correct=0, stars=Number(localStorage.getItem("abcStars")||0), seconds=900, timer=null, locked=false;
+const $=id=>document.getElementById(id);
+$("starsTop").textContent=stars;$("rewardStars").textContent=stars;
+
+function showScreen(id){
+ document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+ $(id).classList.add("active");
+ if(id==="learn") buildLearn();
+ if(id==="ranking") buildRanking();
+ if(id==="rewards") $("rewardStars").textContent=stars;
+}
+function selectChar(card){document.querySelectorAll(".char-card").forEach(c=>c.classList.remove("selected"));card.classList.add("selected");selectedChar=card.dataset.char}
+function startRace(){
+ index=0;correct=0;seconds=900;locked=false;$("stars").textContent=0;$("correct").textContent=0;$("progress").style.width="0%";$("feedback").textContent="";
+ showScreen("race");clearInterval(timer);timer=setInterval(tick,1000);nextQuestion();
+}
+function tick(){seconds--;updateTime();if(seconds<=0){clearInterval(timer);finishGame()}}
+function updateTime(){let m=Math.floor(seconds/60).toString().padStart(2,"0"),s=(seconds%60).toString().padStart(2,"0");$("time").textContent=m+":"+s}
+function nextQuestion(){
+ if(index>=alphabet.length){finishGame();return}
+ locked=false;const letter=alphabet[index];$("target").textContent=letter;
+ const opts=[letter];while(opts.length<3){let x=alphabet[Math.floor(Math.random()*alphabet.length)];if(!opts.includes(x))opts.push(x)}
+ opts.sort(()=>Math.random()-.5);$("answers").innerHTML=opts.map(x=>`<button class="answer" onclick="answer('${x}')">${x}</button>`).join("");
+ $("progress").style.width=(index/alphabet.length*100)+"%";$("feedback").textContent="";
+ speak(letter);
+}
+function answer(x){
+ if(locked)return;locked=true;const right=alphabet[index], buttons=[...document.querySelectorAll(".answer")];
+ buttons.forEach(b=>{if(b.textContent===right)b.classList.add("correct");if(b.textContent===x&&x!==right)b.classList.add("wrong")});
+ if(x===right){correct++;stars++;localStorage.setItem("abcStars",stars);$("correct").textContent=correct;$("stars").textContent=correct;$("starsTop").textContent=stars;$("feedback").textContent="🎉 ¡Correcto! ¡Tu unicornio acelera!";moveRacer();speak("¡Muy bien! "+right+" de "+words[right])}
+ else {$("feedback").textContent="💗 Casi. La respuesta correcta es "+right+".";speak("La letra es "+right)}
+ index++;setTimeout(nextQuestion,850)
+}
+function moveRacer(){let pct=Math.min(88,(correct/alphabet.length)*84+4);$("racer").style.left=pct+"%"}
+function finishGame(){
+ clearInterval(timer);$("progress").style.width="100%";const pct=Math.round(correct/alphabet.length*100);
+ $("modalContent").innerHTML=`<div style="font-size:70px">👑🦄</div><h2>¡Carrera terminada!</h2><p>Guerrera: <b>${selectedChar}</b></p><p>Respuestas correctas: <b>${correct}/${alphabet.length}</b></p><p>Resultado: <b>${pct}%</b></p><p>${pct>=80?"🌟 ¡Excelente trabajo!":"💪 ¡Sigue practicando!"}</p>`;
+ $("modal").classList.add("show");confetti();updateRanking();$("starsTop").textContent=stars
+}
+function closeModal(){$("modal").classList.remove("show");showScreen("rewards")}
+function buildLearn(){
+ $("learnGrid").innerHTML=alphabet.map(l=>`<button class="char-card" onclick="learnLetter('${l}')"><div style="font-size:42px;font-weight:900;color:#e45eaa">${l}</div><b>${words[l]}</b></button>`).join("");
+}
+function learnLetter(l){speak(l+" de "+words[l]);alert(l+" de "+words[l])}
+function speak(text){if("speechSynthesis"in window){speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(text);u.lang="es-MX";u.rate=.9;speechSynthesis.speak(u)}}
+function updateRanking(){
+ let data=JSON.parse(localStorage.getItem("abcRanking")||"[]");data.push({name:selectedChar,score:correct,date:Date.now()});data.sort((a,b)=>b.score-a.score);localStorage.setItem("abcRanking",JSON.stringify(data.slice(0,5)));
+}
+function buildRanking(){
+ let data=JSON.parse(localStorage.getItem("abcRanking")||"[]");if(!data.length)data=[{name:"Sora",score:0},{name:"Mina",score:0},{name:"Yuna",score:0}];
+ $("rankingBody").innerHTML=data.map((r,i)=>`<tr><td>${i+1}</td><td>${r.name}</td><td>⭐ ${r.score}</td></tr>`).join("");
+}
+function confetti(){let box=$("confetti");box.innerHTML="";for(let i=0;i<45;i++){let s=document.createElement("span");s.textContent=["⭐","💖","🌈","✨","🦄","👑"][Math.floor(Math.random()*6)];s.style.left=Math.random()*100+"%";s.style.animationDelay=Math.random()*.8+"s";box.appendChild(s)}setTimeout(()=>box.innerHTML="",3500)}
+buildLearn();buildRanking();
+</script>
+</body>
+</html>
